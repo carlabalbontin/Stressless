@@ -1,4 +1,4 @@
-package com.cbalt.stressless;
+package com.cbalt.stressless.adapters;
 
 public interface PendingClickListener {
 

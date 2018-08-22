@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.cbalt.stressless.PendingClickListener;
 import com.cbalt.stressless.R;
 import com.cbalt.stressless.data.Queries;
 import com.cbalt.stressless.models.Pending;
@@ -25,6 +24,7 @@ public class PendingsAdapter extends RecyclerView.Adapter<PendingsAdapter.ViewHo
     public PendingsAdapter(PendingClickListener listener) {
         this.listener = listener;
     }
+
 
     @NonNull
     @Override
@@ -67,7 +67,7 @@ public class PendingsAdapter extends RecyclerView.Adapter<PendingsAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Pending auxPending = pendings.get(viewHolder.getAdapterPosition());
-                listener.clickedID(auxPending.getId() );
+                listener.clickedID(auxPending.getId());
             }
         });
     }
@@ -77,6 +77,16 @@ public class PendingsAdapter extends RecyclerView.Adapter<PendingsAdapter.ViewHo
         return pendings.size();
     }
 
+    public void addPending(Pending pending) {
+        pendings.add(pending);
+        notifyDataSetChanged();
+    }
+
+    public void updateByName(String name){
+        List<Pending> byName = new Queries().byName(name);
+        pendings.clear();
+        pendings.addAll(byName);
+    }
 
     public void update(Pending pending){
         pendings.add(pending);

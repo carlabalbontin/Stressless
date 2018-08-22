@@ -1,5 +1,6 @@
-package com.cbalt.stressless;
+package com.cbalt.stressless.views.main.pendings;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,17 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.cbalt.stressless.R;
 import com.cbalt.stressless.adapters.PendingsAdapter;
 import com.cbalt.stressless.models.Pending;
+import com.cbalt.stressless.adapters.PendingClickListener;
+import com.cbalt.stressless.views.details.DetailsActivity;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PendingsFragment extends Fragment implements PendingClickListener {
+public class PendingListFragment extends Fragment implements PendingClickListener {
 
     private PendingsAdapter adapter;
 
-    public PendingsFragment() {
+    public PendingListFragment() {
     }
 
     @Override
@@ -41,26 +45,24 @@ public class PendingsFragment extends Fragment implements PendingClickListener {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        for (int i = 0; i < 5; i++) {
-            Pending pending = new Pending();
-            pending.setName(String.valueOf(i));
-            pending.setDescription(String.valueOf(i));
-            pending.setDone(false);
-            pending.save();
-        }
-
         adapter = new PendingsAdapter(this);
         recyclerView.setAdapter(adapter);
 
     }
 
-    public void updateList(Pending pending){
-        adapter.update(pending);
-        Log.d("PENDING", pending.getName());
+    public void addPending(Pending pending) {
+        adapter.addPending(pending);
+    }
+
+    public void updateList(String name){
+        Toast.makeText(getContext(), "Search!", Toast.LENGTH_SHORT).show();
+        adapter.updateByName(name);
     }
 
     @Override
     public void clickedID(long id) {
-        Toast.makeText(getContext(),String.valueOf(id), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 }
